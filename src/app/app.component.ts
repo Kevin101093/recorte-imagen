@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ImageControlComponent } from './supercop/image-control/image-control.component';
 
@@ -7,7 +7,7 @@ import { ImageControlComponent } from './supercop/image-control/image-control.co
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatToolbarModule, ImageControlComponent],
+  imports: [MatToolbarModule, RouterOutlet, ImageControlComponent],
   templateUrl: './app.component.html',
 
 })

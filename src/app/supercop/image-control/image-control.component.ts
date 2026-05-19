@@ -1,10 +1,11 @@
 import { Component, computed, Input, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-image-control',
-  imports: [],
+  imports: [MatButtonModule],
   templateUrl: './image-control.component.html',
-  styleUrl: './image-control.component.css',
+  styleUrls: ['./image-control.component.css'],
 })
 export class ImageControlComponent {
   imageWidth = signal(0);
