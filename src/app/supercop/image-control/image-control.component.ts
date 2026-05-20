@@ -1,9 +1,12 @@
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, computed, inject, Input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CropperDialogComponent } from '../cropper-dialog/cropper-dialog.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-image-control',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatDialogModule],
   templateUrl: './image-control.component.html',
   styleUrls: ['./image-control.component.css'],
 })
@@ -18,5 +21,27 @@ export class ImageControlComponent {
     this.imageHeight.set(val);
   }
 
-  placeholder = computed(() => `https://placehold.co/${this.imageWidth()}x${this.imageHeight()}`);
+  placeholder = computed(
+    () => `https://placehold.co/${this.imageWidth()}x${this.imageHeight()}`,
+  );
+  // TODO: Continuar agregando cropper dialog
+  dialog = inject(MatDialog);
+
+  fileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const dialogRef = this.dialog.open(CropperDialogComponent, {
+        data: {
+          image: file,
+          width: this.imageWidth(),
+          height: this.imageHeight(),
+        },
+        width: '500px',
+      });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
+
+        })
+    }
+  }
 }

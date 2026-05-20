@@ -7,5 +7,6 @@
     class="mat-elevation-z5"
     alt="Placeholder image"
   />
-  <button mat-raised-button>Select Photo</button>
+  <input #inputField type="file" hidden (change)="fileSelected($event)" (click)="inputField.value = ''">
+  <button mat-raised-button (click)="inputField.click()">Select Photo</button>
 </div>
