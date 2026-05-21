@@ -5,6 +5,7 @@ import { ImageControlComponent } from './supercop/image-control/image-control.co
 
 
 
+
 @Component({
   selector: 'app-root',
   imports: [MatToolbarModule, RouterOutlet, ImageControlComponent],
@@ -13,6 +14,10 @@ import { ImageControlComponent } from './supercop/image-control/image-control.co
 })
 export class AppComponent {
   title = 'SUPERCOP';
+
+  imageReady(event: Blob) {
+    console.log('Image ready:', event);
+  }
 
 }
 

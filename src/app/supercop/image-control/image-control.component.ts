@@ -1,7 +1,7 @@
-import { Component, computed, inject, Input, signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CropperDialogComponent } from '../cropper-dialog/cropper-dialog.component';
+import { CropperDialogComponent, CropperDialogResult } from '../cropper-dialog/cropper-dialog.component';
 import { filter } from 'rxjs';
 
 @Component({
@@ -24,7 +24,17 @@ export class ImageControlComponent {
   placeholder = computed(
     () => `https://placehold.co/${this.imageWidth()}x${this.imageHeight()}`,
   );
-  // TODO: Continuar agregando cropper dialog
+
+  croppedImage = signal<CropperDialogResult | undefined>(undefined);
+
+  imageSource = computed(() => {
+    if (this.croppedImage()) {
+      return this.croppedImage()?.imageUrl;
+    }
+
+    return this.placeholder();
+  })
+
   dialog = inject(MatDialog);
 
   fileSelected(event: any) {
@@ -40,8 +50,18 @@ export class ImageControlComponent {
       });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
-
-        })
+          this.croppedImage.set(result);
+        });
     }
+  }
+
+  @Output() imageReady = new EventEmitter<Blob>();
+
+  constructor() {
+    effect(() => {
+      if (this.croppedImage()) {
+        this.imageReady.emit(this.croppedImage()?.blob);
+      }
+    })
   }
 }

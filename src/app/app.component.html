@@ -3,7 +3,7 @@
 </mat-toolbar>
 
 <div class="container">
-<app-image-control [width]="200" [height]="200"></app-image-control>
+<app-image-control [width]="200" [height]="200" (imageReady)="imageReady($event)"></app-image-control>
 </div>
 
 
